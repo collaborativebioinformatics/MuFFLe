@@ -39,6 +39,8 @@ We started by brainstorming potential ways to integrate multimodal data. We cons
 As a result, we opted for an approach that better leverages smaller, more specialized models. This led us to the diagram below:
 ![Methods Architecture Draft 1](figures/methods-architecture-draft-1.png)
 
+Which naturally lent itself to the very similar diagram from [CHIMERA, task 3](https://chimera.grand-challenge.org/task-3-bladder-cancer-recurrence-prediction/). **(Half serious) we want to emphasize that we dreamt up the diagram above before running into CHIMERA.**
+![CHIMERA Task 3 Diagram](figures/chimera-task-3.png)
 
 # How to use this tool
 
