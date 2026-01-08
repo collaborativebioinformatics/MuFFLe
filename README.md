@@ -32,8 +32,12 @@ Run the jupyter notebook `prf-of-concept.ipynb`. This was built by extending the
 - [ ] Generate with Tree
 
 # Introduction (1 para)
+MuFFLe is a privacy-preserving framework for integrating multimodal biomedical data (RNA sequencing, clinical features) for cancer prognosis. Using NVIDIA's NVFlare, each hospital site trains on its local data and shares only model updates—not raw patient data—with a central server for aggregation.
 
 # Methods (2 paras)
+We use a late fusion architecture with modality-specific encoders: an RNA encoder projects gene expression data into 256-dim embeddings, while a clinical encoder maps patient features to 64-dim embeddings. These are concatenated and fed through a risk prediction head. Missing modalities are handled by substituting zero embeddings.
+
+Training uses NVFlare's FedAvg algorithm across simulated sites, where each site specializes in one modality (e.g., Site-1 trains on clinical data, Site-2 on RNA). Sites receive the global model, train locally, and send weight updates back for aggregation—enabling collaborative learning while preserving privacy.
 
 ## Example Dataset and Task
 We decided to go with the data for the [CHIMERA Challenge](https://registry.opendata.aws/chimera), which stands for
