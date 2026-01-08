@@ -21,6 +21,8 @@ source .venv/bin/activate # or however you activate your Python virtual environm
 pip install nvflare
 # Install PyTorch optional dependencies
 pip install "nvflare[PT]" # should also install torch and other necessary packages
+pip install tensorboard matplotlib
+pip install jupyter ipykernel
 ```
 
 - [ ] 
