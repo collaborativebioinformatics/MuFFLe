@@ -15,6 +15,16 @@
 ![flowchart](figures/flowchart.png)
 
 # Quick Start
+```bash
+# create a Python virtual environment (I used .venv, use conda or wtv you want)
+source .venv/bin/activate # or however you activate your Python virtual environments.
+pip install nvflare
+# Install PyTorch optional dependencies
+pip install "nvflare[PT]" # should also install torch and other necessary packages
+pip install tensorboard matplotlib
+pip install jupyter ipykernel
+```
+
 - [ ] 
 
 # Directory Structure
@@ -36,7 +46,18 @@ This data was open-access and easily available on [AWS Open Data](https://regist
 We opted for [Task 3](https://chimera.grand-challenge.org/task-3-bladder-cancer-recurrence-prediction/) of this challenge. See [How we built this tool](#how-to-use-this-tool) for the reasons why we chose this task.
 
 ## Setting up the baseline
-The [CHIMERA repository](https://github.com/DIAGNijmegen/CHIMERA/tree/main) does not give great instructions for how to establish the task 3 baseline. *The README in that folder is 1 byte. As in it's blank. Disgusting.* So we cloned the repository locally and recreated it ourselves.
+The [CHIMERA repository](https://github.com/DIAGNijmegen/CHIMERA/tree/main) does not give great instructions for how to establish the task 3 baseline. *The README in that folder is 1 byte. As in it's blank. Disgusting.* So we cloned the repository locally and recreated it ourselves. 
+
+During development, we realized that the CHIMERA challenge ran for 4 months
+>📢 Challenge Announcement & Registration Opens – April 10, 2025
+
+>Training Data Release – April 10, 2025
+
+>Validation Phase Begins – June 1, 2025 June 13, 2025
+
+>Test Set Submission Deadline – August 1, 2025 August 22 AOE, 2025
+
+To decrease the scope of what we had to do and make it feasible for the hackathon, we threw out the image features and only developed on the RNA and clinical data inputs as a proof-of-concept.
 
 ## Extending the Challenge
 (PROPOSED, NOT GUARANTEED YET) Because we have now implemented this in a federated setting, we can now extend each subtype of data provided in CHIMERA using other open-access datasets. (I'm just freestyling rn) For example, the histopathology data was extended with SOME DATASET HERE
