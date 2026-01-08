@@ -17,10 +17,10 @@ client side training scripts
 """
 
 import torch
-from model import SimpleNetwork
+from server.model import SimpleNetwork
 from torch import nn
 from torch.optim import SGD
-from datasets import ClinicalDataset, RNADataset
+from clients.datasets import ClinicalDataset, RNADataset
 import os
 
 # (1) import nvflare client API
