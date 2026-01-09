@@ -11,7 +11,7 @@ from torch import nn
 import nvflare.client as flare
 from nvflare.client.tracking import SummaryWriter
 
-from server.model import SimpleNetwork
+from server.model import FusionNet
 from clients.datasets import ClinicalDataset, RNADataset, clinical_collate_fn
 from clients.evaluate import evaluate, load_eval_data
 
@@ -28,7 +28,7 @@ def main():
     # ----------------------------------------------------------------------- #
 
     # Shared across all clients
-    model = SimpleNetwork(rna_dim=19359, clinical_dim=13)
+    model = FusionNet()
 
     # Free for Client to modify
     config = {
