@@ -88,7 +88,7 @@ def update_model(
 
             print(f"[{epoch + 1}, {i + 1:5d}] loss: {cost.item()}")
             # Optional: Log metrics
-            global_step = current_round * steps + epoch * len(CDloader) + i # type: ignore
+            global_step = current_round * steps + epoch * len(CDloader) + i 
             summary_writer.add_scalar(tag="loss", scalar=cost.item(), global_step=global_step)
 
             print(f"site={client_name}, Epoch: {epoch}/{config['epochs']}, Iteration: {i}, Loss: {cost.item()}")
