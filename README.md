@@ -20,22 +20,7 @@ You can now run the jupyter notebook `src/prf-of-concept.ipynb`!
 
 Logs for tensorboard are stored in `/tmp/nvflare/simulation/MEM_SAN_FedCollab/server/simulate_job/tb_events/`. More instructions are in the jupyter notebook `src/prf-of-concept.ipynb`.
 
-## TODO List + References:
-- [X] Reference previous years' repos as inspo for this GitHub repo
-  - [GeneVar2](https://github.com/collaborativebioinformatics/GeneVar2), a little *too* good because it was a 2nd followup project
-  - [Haploblock Clusters](https://github.com/collaborativebioinformatics/Haploblock_Clusters_ElixirBH25)
-- [X] Stick w the default MIT License, just don't use GPL or LGPL because industry can't use it 
-- [X] (Tyler) Implement the baseline for Task 3 of Chimera in a federated setting (NVFlare)
-- [ ] Use Chimera Task 3 leaderboard and other research to think about improvements or a potential way to use a federated model to do well on this task
-  - [ ] Attention scores for the concatenated embeddings or more interpretable weights-per-modality (though this might have the issue where higher-dim embeddings affect the weights more/less bc they're bigger... not sure).
-  - [ ] Maybe a combo of both where we do interpretable trainable weights per modality, then an attention layer within each modality.
-- [ ] Now that we're in a federated setting, we can do updates for each modality independently, and thus we can extend each modality's data beyond the data merely provided in CHIMERA
-  - [ ] e.g., find more histopathology data
-  - [ ] e.g., find other potential modalities that might bolster our global fusion model (or we update our different fusion model architecture to take in this extra modality).
-  - [ ] could explore PCA or some other method that just takes in generic embeddings, and thus our fusion model could take in as many different modalities as we want, and the embeddings just have their semantic meaning (this may be out of scope for the hackathon)
-
 ![flowchart](figures/flowchart.png)
-
 
 # Introduction (1 para)
 MuFFLe is a privacy-preserving framework for integrating multimodal biomedical data (RNA sequencing, clinical features) for cancer prognosis. Using NVIDIA's NVFlare, each hospital site trains on its local data and shares only model updates—not raw patient data—with a central server for aggregation.
