@@ -1,0 +1,17 @@
+{
+  "age": 72,
+  "sex": "Male",
+  "smoking": "No",
+  "tumor": "Primary",
+  "stage": "T1HG",
+  "substage": "T1m",
+  "grade": "G3",
+  "reTUR": "Yes",
+  "LVI": "No",
+  "variant": "UCC",
+  "EORTC": "Highest risk",
+  "no_instillations": 24.0,
+  "BRS": "BRS2",
+  "progression": 0,
+  "Time_to_prog_or_FUend": 110
+}
