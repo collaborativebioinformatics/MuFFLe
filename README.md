@@ -1,4 +1,4 @@
-# Multimodal Framework for Federated Learning (MuFFLe) <img src="path/to/logo.png" alt="MuFFLe logo" width="100" height="50">
+# ![MuFFLe Logo](figures/muffle-logo.png) Multimodal Framework for Federated Learning (MuFFLe)
 
 ## TODO List + References:
 - [X] Reference previous years' repos as inspo for this GitHub repo
@@ -57,6 +57,16 @@ This data was open-access and easily available on [AWS Open Data](https://regist
 
 We opted for [Task 3](https://chimera.grand-challenge.org/task-3-bladder-cancer-recurrence-prediction/) of this challenge. See [How we built this tool](#how-to-use-this-tool) for the reasons why we chose this task.
 
+For the purpose of federated learning, we split the dataset into two “clients”: Cohort A and Cohort B. These cohorts come from slightly different RNA-seq protocols, simulating heterogeneity across institutions. No batch effect adjustment was performed between the cohorts in original raw dataset.
+
+@yiman add the rna plot here.
+
+In addition, several clinical conditions also varied between the two datasets, further highlighting the need of a multimodal federated learning algorithm.
+
+![lv1 plot](figures/lv1_cohorts.png)
+
+This setup allows us to simulate a privacy-preserving, multi-institutional federated learning scenario, where each client trains locally on its data and only shares model updates with the central server, without exposing individual patient data.
+
 ## Setting up the baseline
 The [CHIMERA repository](https://github.com/DIAGNijmegen/CHIMERA/tree/main) does not give great instructions for how to establish the task 3 baseline. *The README in that folder is 1 byte. As in it's blank. Very frustrating.* So we cloned the repository locally and recreated it ourselves. 
 
@@ -69,7 +79,7 @@ During development, we realized that the CHIMERA challenge ran for 4 months
 
 >Test Set Submission Deadline – August 1, 2025 August 22 AOE, 2025
 
-To decrease the scope of what we had to do and make it feasible for the hackathon, we threw out the image features and only developed on the RNA and clinical data inputs as a proof-of-concept.
+(change the phrasing here say for the ease of time, we directly incorporated image based features already processed by the data authors instead of obtaining features from the images ourselves? -sounds bit professional haha) To decrease the scope of what we had to do and make it feasible for the hackathon, we threw out the image features and only developed on the RNA and clinical data inputs as a proof-of-concept.
 
 ## Extending the Challenge
 (PROPOSED, NOT GUARANTEED YET) Because we have now implemented this in a federated setting, we can now extend each subtype of data provided in CHIMERA using other open-access datasets. (I'm just freestyling rn) For example, the histopathology data was extended with SOME DATASET HERE
