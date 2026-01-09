@@ -37,24 +37,31 @@ def load_eval_data(dataset_path):
 
 def evaluate(model, CDloader, RNAloader, device):
     correct = 0
-    total = 0
+    total = 26
     # since we're not training, we don't need to calculate the gradients for our outputs
     with torch.no_grad():
         for((clinical_data, progression_labels), rnaseq_data) in zip(CDloader, RNAloader):
             # (optional) use GPU to speed things up
             clinical_data = clinical_data.to(device)
-            progression_labels = progression_labels.to(device)
+            progression_labels = progression_labels.to(device).int()
             rnaseq_data = rnaseq_data.to(device)
             output = model(clinical_data, rnaseq_data)
 
-            probabilities = torch.sigmoid(output['logits'])
-            binary_predictions_fast = (output['logits'] > 0).int()
+            logits = output['logits'].squeeze(1)
+            probabilities = torch.sigmoid(logits)
+            binary_predictions_fast = (logits > 0).int()
 
-            total += progression_labels.size(0)
             correct += (binary_predictions_fast == progression_labels).sum().item()
             print(f"Probabilities: {probabilities}")
+            validate_correct = 0
+            for i in range(26):
+                print(f"Predicted: {binary_predictions_fast[i]}. Expected: {progression_labels[i]}")
+                validate_correct += 1 if int(binary_predictions_fast[i]) == int(progression_labels[i]) else 0
+
+            assert correct == validate_correct
             print(f"Accuracy of the network on the 26 test subjects from Cohort A: {100 * correct // total} %")
             break
+    
     return 100 * correct // total
     
 
