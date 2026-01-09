@@ -1,17 +1,54 @@
 #!/usr/bin/env python3
 """Create clinical relevance analysis visualizations."""
 
+import sys
+from pathlib import Path
+
+# Check for required packages
+required_packages = {
+    'pandas': 'pandas',
+    'numpy': 'numpy', 
+    'matplotlib': 'matplotlib',
+    'seaborn': 'seaborn',
+    'scipy': 'scipy'
+}
+
+missing_packages = []
+for module, package in required_packages.items():
+    try:
+        __import__(module)
+    except ImportError:
+        missing_packages.append(package)
+
+if missing_packages:
+    print(f"ERROR: Missing required packages: {', '.join(missing_packages)}")
+    print(f"Please install them with: pip3 install {' '.join(missing_packages)}")
+    sys.exit(1)
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pathlib import Path
 from scipy import stats
 
 # Paths
 PROJECT_ROOT = Path(__file__).parent
 clusters_df = pd.read_csv(PROJECT_ROOT / "analysis" / "clusters.csv")
-clinical_df = pd.read_csv(PROJECT_ROOT / "data" / "clinical_data.csv")
+# Try multiple possible locations for clinical data
+clinical_paths = [
+    PROJECT_ROOT / "data" / "clinical_data.csv",
+    Path("/home/ubuntu/Fusion_model/Fusion_model_clustering/data/clinical_data.csv"),
+    Path("/home/ubuntu/Fusion_model/MuFFLe/src/data/raw/clinical_data.csv"),
+    Path("/home/ubuntu/Fusion_model/MuFFLe/Fusion_model_clustering/data/clinical_data.csv")
+]
+clinical_df = None
+for path in clinical_paths:
+    if path.exists():
+        clinical_df = pd.read_csv(path)
+        print(f"Loaded clinical data from: {path}")
+        break
+if clinical_df is None:
+    raise FileNotFoundError(f"Could not find clinical_data.csv. Checked: {clinical_paths}")
 output_dir = PROJECT_ROOT / "analysis" / "clinical_analysis"
 output_dir.mkdir(exist_ok=True)
 

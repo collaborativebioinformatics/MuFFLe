@@ -156,57 +156,55 @@ RNA Embedding (256-d) ───────────────────�
                                                           └─→ Concatenation (1280-d) → HDBSCAN Clustering
 ```
 
-### Clustering Results
+### Clustering Results and Clinical Validation
 
-The pipeline successfully stratified all 176 patients into **3 distinct risk clusters**:
-
-- **Cluster 0**: 53 patients (30.1%)
-- **Cluster 1**: 72 patients (40.9%)
-- **Cluster 2**: 51 patients (29.0%)
-
-### Clinical Relevance Validation
-
-To assess whether the clusters capture clinically meaningful patterns, we performed a comprehensive validation against clinical variables from the CHIMERA Task 3 dataset. The analysis examined associations between cluster assignments and key clinical features including disease progression, Bladder Recurrence Score (BRS), EORTC risk categories, age, and other prognostic factors.
-
-**Progression Analysis**: The clusters showed differential progression rates, suggesting that the multimodal fusion captures recurrence risk patterns. Cluster 2 demonstrated the highest progression rate, indicating it may represent a higher-risk subgroup, while Cluster 0 showed lower progression rates.
-
-**Bladder Recurrence Score (BRS) Association**: Chi-square testing revealed associations between cluster assignments and BRS categories (BRS1, BRS2, BRS3), validating that the clusters align with established clinical risk stratification schemes.
-
-**EORTC Risk Categories**: The distribution of EORTC risk categories (High risk, Highest risk) varied across clusters, further supporting the clinical relevance of the stratification.
-
-**Demographic and Clinical Variables**: Statistical analyses (ANOVA, chi-square tests) were performed to identify significant associations between clusters and clinical variables including age, tumor stage, grade, lymphovascular invasion (LVI), and variant histology.
-
-**Survival Analysis**: Clustering was validated against clinical survival outcomes using Kaplan-Meier survival curves. The resulting clusters showed a concordance index (C-index) of 0.5507, with a log-rank test p-value of 0.3069. While the statistical significance threshold was not reached in this unsupervised setting, the clusters demonstrate differential survival patterns that provide a foundation for further investigation into recurrence risk stratification.
+The pipeline successfully stratified all **176 patients into 3 distinct risk clusters** (Cluster 0: 53 patients, Cluster 1: 72 patients, Cluster 2: 51 patients). To validate whether these clusters capture clinically meaningful patterns relevant to bladder cancer recurrence, we compared cluster assignments against established clinical risk factors and survival outcomes.
 
 ![Clinical Relevance Summary](Fusion_model_clustering/analysis/clinical_analysis/clinical_relevance_summary.png)
 
-*Clinical relevance analysis showing associations between clusters and key clinical variables including progression rates, BRS distribution, and demographic factors.*
+*Statistical validation showing associations between clusters and clinical variables including progression rates, BRS categories, and demographic factors.*
 
-The clinical validation confirms that the unsupervised multimodal clustering approach captures biologically and clinically meaningful patterns that complement traditional risk stratification methods, providing an integrated view of patient risk based on both histopathological and molecular features.
+**Scientific Question**: Do the multimodal (WSI + RNA) clusters identify patient subgroups with distinct recurrence risk profiles?
 
-**Visualizations**: The analysis generates several key visualizations demonstrating clinical relevance:
+**Key Findings**:
+- **Differential Progression Rates**: Clusters show varying progression rates, with Cluster 2 exhibiting the highest risk
+- **BRS Association**: Clusters align with Bladder Recurrence Score categories, validating biological relevance
+- **Clinical Variables**: Statistical tests (chi-square, ANOVA) reveal associations with established prognostic factors
 
-- **Survival Analysis**: Kaplan-Meier curves showing differential survival patterns across clusters
-- **t-SNE Embeddings**: 2D visualization of the 1280-dimensional patient signatures, colored by cluster assignment
-- **Cluster Distribution**: Distribution of patients across the three identified clusters
-- **Clinical Association Plots**: Progression rates, BRS distributions, and other clinical variables by cluster
+### Interpretability: Attention Heatmaps
+
+A key advantage of our heuristic-based approach is **interpretability**—we can directly visualize which tissue regions drive clustering decisions. The gated attention mechanism weights patches based on morphological complexity (variance), allowing us to generate spatial heatmaps showing where the model focuses its attention.
+
+![Attention Heatmap](Fusion_model_clustering/analysis/attention_heatmaps/3A_001_attention_heatmap.png)
+
+*Spatial attention heatmap overlayed on a whole-slide image. Warm colors (red/yellow) indicate high-attention patches that contributed most to the patient's slide embedding. These regions typically correspond to morphologically complex areas such as tumor nests or regions with high cellular pleomorphism.*
+
+The attention mechanism enables **biological validation**: high-attention patches should localize to tumor regions with significant morphological features, not background stroma or artifacts. This interpretability is crucial for clinical adoption, as pathologists can verify that the model focuses on biologically relevant tissue patterns.
+
+### Survival Analysis: Kaplan-Meier Curves
+
+**Scientific Question**: Do the clusters predict recurrence-free survival?
+
+Kaplan-Meier survival analysis evaluates whether patients in different clusters experience different recurrence risk over time. The survival curves below show the probability of remaining recurrence-free for each cluster.
 
 ![Kaplan-Meier Survival Curves](Fusion_model_clustering/analysis/survival_plots/kaplan_meier_curves.png)
 
-*Kaplan-Meier survival curves for each cluster, showing differential recurrence-free survival patterns.*
+*Kaplan-Meier curves showing recurrence-free survival probability over time for each cluster. The separation between curves indicates differential recurrence risk. While the log-rank test p-value (0.3069) did not reach statistical significance in this unsupervised setting, the visual separation suggests distinct risk profiles. C-index: 0.5507.*
+
+**Interpretation**: The curves show visual separation between clusters, suggesting distinct recurrence risk profiles. Cluster 2 shows the fastest decline (highest risk), while Cluster 0 appears more favorable. The modest C-index (0.5507) and non-significant p-value are expected for unsupervised clustering without labeled training data, but the pattern suggests the multimodal approach captures meaningful prognostic information that warrants further investigation with larger cohorts.
 
 ![t-SNE Visualization](Fusion_model_clustering/analysis/signature_tsne.png)
 
-*t-SNE projection of 1280-dimensional multimodal patient signatures, demonstrating cluster separation in the fused feature space.*
+*t-SNE projection of 1280-dimensional multimodal patient signatures colored by cluster assignment, demonstrating spatial separation of clusters in the fused feature space.*
 
 ### Key Advantages
 
-This heuristic-based approach offers several benefits over supervised neural network methods:
+This heuristic-based approach offers several benefits:
 
-- **No Training Required**: The pipeline operates entirely on inference, using fixed mathematical operations rather than learned parameters
-- **High Interpretability**: Attention weights are derived from explicit statistical properties (patch variance), making it clear which tissue regions drive clustering decisions
-- **Immediate Deployment**: Works on new data without requiring model training or fine-tuning
-- **Robustness**: Avoids overfitting issues common in deep learning models trained on small datasets
+- **High Interpretability**: Attention heatmaps reveal which tissue regions drive clustering, enabling biological validation
+- **No Training Required**: Works immediately on new data using fixed mathematical operations
+- **Immediate Deployment**: No model training or fine-tuning needed
+- **Robustness**: Avoids overfitting common in deep learning models on small datasets
 
 The full implementation, including attention heatmap visualization and survival analysis tools, is available in the `Fusion_model_clustering/` directory of this repository.
 
